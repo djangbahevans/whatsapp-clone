@@ -1,6 +1,6 @@
 import { Avatar, Box, Divider, Stack, Typography } from "@mui/material"
 import { green } from "@mui/material/colors"
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown"
+import { KeyboardArrowDown, PushPin, VolumeOff } from "@mui/icons-material"
 import { useMemo } from "react"
 
 interface IContactDisplayProps {
@@ -8,11 +8,13 @@ interface IContactDisplayProps {
   text: string
   time: string
   msgCount?: number
+  muted?: boolean
+  pinned?: boolean
 }
 
 
 
-export const ContactDisplay = ({ name, text, time, msgCount }: IContactDisplayProps) => {
+export const ContactDisplay = ({ muted, pinned, name, text, time, msgCount }: IContactDisplayProps) => {
   const dropArrowClassName = useMemo(() => {
     var text = "";
     var charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -24,7 +26,7 @@ export const ContactDisplay = ({ name, text, time, msgCount }: IContactDisplayPr
 
   return (
     <>
-      <Box sx={{ height: "70px", display: "flex", alignItems: "center", p: 1, cursor: "pointer", "&:hover": { bgcolor: "primary.main", [`& .arrow-down_${dropArrowClassName}`]: { display: "inline-block" } } }}>
+      <Box sx={{ height: "70px", display: "flex", alignItems: "center", p: 1, cursor: "pointer", "&:hover": { bgcolor: "primary.main", [`& .arrow-down_${dropArrowClassName}`]: { transform: "translateX(0)" } } }}>
         <Avatar alt="Evans Djangbah" sx={{ mr: 1 }} />
         <Stack direction="column" justifyContent="space-between">
           <Typography>{name}</Typography>
@@ -33,16 +35,19 @@ export const ContactDisplay = ({ name, text, time, msgCount }: IContactDisplayPr
         <Box sx={{ flexGrow: 1 }} />
         <Stack sx={{ height: "100%" }} direction="column" justifyContent="space-around" alignItems="end">
           <Typography sx={{ color: msgCount ? green[400] : "primary.dark", mr: 1 }} variant="body2">{time}</Typography>
-          <Stack direction="row" sx={{ mr: 1 }}>
-            <Avatar
-              sx={{ visibility: msgCount ? "visible" : "hidden", height: 20, width: 20, p: "2px", bgcolor: green[400] }}>
-              <Typography sx={{ fontSize: "12px" }}>{msgCount}</Typography>
-            </Avatar>
-            <KeyboardArrowDownIcon
-              className={`arrow-down_${dropArrowClassName}`}
-              onClick={() => console.log("Icon clicked")}
-              sx={{ ml: 0, color: "primary.dark", display: "none" }} />
-          </Stack>
+          <Box sx={{ overflow: "hidden" }}>
+            <Stack className={`arrow-down_${dropArrowClassName}`} direction="row" sx={{ transform: "translateX(20px)", transition: "all .2s", color: "#8696a0" }}>
+              {muted && <VolumeOff />}
+              {pinned && <PushPin />}
+              {msgCount && <Avatar
+                sx={{ visibility: msgCount ? "visible" : "hidden", height: 20, width: 20, p: "2px", bgcolor: green[400] }}>
+                <Typography sx={{ fontSize: "12px" }}>{msgCount}</Typography>
+              </Avatar>}
+              <KeyboardArrowDown
+                onClick={() => console.log("Icon clicked")}
+                sx={{ ml: 0 }} />
+            </Stack>
+          </Box>
         </Stack>
       </Box>
       <Divider light sx={{ ml: 7, mr: 1 }} />
