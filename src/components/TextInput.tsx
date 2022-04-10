@@ -1,7 +1,7 @@
-import { AttachFileOutlined, EmojiEmotionsOutlined, KeyboardVoiceOutlined, SendOutlined } from "@mui/icons-material"
-import { Box, IconButton, InputBase, Popover, Stack, Typography } from "@mui/material"
-import { useRef, useState } from "react"
+import { AttachFileOutlined, EmojiEmotionsOutlined, KeyboardVoiceOutlined, SendOutlined } from "@mui/icons-material";
+import { Box, IconButton, InputBase, Popover, Stack } from "@mui/material";
 import Picker, { IEmojiData } from 'emoji-picker-react';
+import { useRef, useState } from "react";
 
 
 export const TextInput = () => {
